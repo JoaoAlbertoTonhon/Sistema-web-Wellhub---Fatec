@@ -1,30 +1,48 @@
+<?php
+session_start();
+if (isset($_SESSION['alunoId'])) {
+    header('location:paginas/inicio.php');
+    die();
+}
+?>
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="css/style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Wellhub - Login</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
 </head>
-<body class="login">
-<div class="caixa-login">
-    <h1>Wellhub</h1>
-    <p>Acesso do aluno</p>
+<body>
+<div class="tela-centro">
+    <div class="caixa-login">
+        <h1>Wellhub</h1>
+        <p class="texto-suave">Acesso do aluno</p>
 
-    <?php
-    if (isset($_GET['erro'])) {
-        echo '<p class="erro">E-mail ou senha inválidos.</p>';
-    }
-    ?>
+        <?php
+        if (isset($_GET['erro'])) {
+            echo '<div class="aviso aviso-erro">E-mail ou senha inválidos.</div>';
+        }
+        if (isset($_GET['senha'])) {
+            echo '<div class="aviso aviso-sucesso">Senha alterada. Faça seu login.</div>';
+        }
+        ?>
 
-    <form method="POST" action="logica/processaLogin.php">
-        <label for="email">E-mail:</label>
-        <input type="email" id="email" name="email" required>
+        <form method="POST" action="logica/processaLogin.php">
+            <div class="campo">
+                <label for="email">E-mail</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            <div class="campo">
+                <label for="senha">Senha</label>
+                <input type="password" id="senha" name="senha" required>
+            </div>
+            <button class="botao botao-largo" type="submit">Entrar</button>
+        </form>
 
-        <label for="senha">Senha:</label>
-        <input type="password" id="senha" name="senha" required>
-
-        <input type="submit" value="Entrar" class="botao">
-    </form>
+        <p class="links-centro"><a href="recuperarSenha.php">Esqueci minha senha</a></p>
+    </div>
 </div>
 </body>
 </html>

@@ -5,43 +5,28 @@ if (!isset($_SESSION['alunoId'])) {
     die();
 }
 require '../includes/funcoesBD.php';
-$academias = listarAcademias();
+$academias = listarAcademiasDoAluno($_SESSION['alunoId']);
+$titulo = 'Academias';
+require '../includes/cabecalho.php';
 ?>
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <link rel="stylesheet" href="../css/style.css">
-    <title>Wellhub - Academias</title>
-</head>
-<body>
-<div class="topo">
-    <h1>Wellhub</h1>
-    <nav>
-        <a href="inicio.php">Início</a>
-        <a href="../logica/logout.php">Sair</a>
-    </nav>
+
+<h2 class="titulo-pagina">Academias liberadas pelo seu plano</h2>
+<p class="texto-suave">Escolha a academia onde você vai treinar hoje.</p>
+
+<div class="grade">
+<?php
+while ($academia = mysqli_fetch_array($academias)) {
+    echo '<div class="cartao">';
+    echo '<h3>' . $academia['nome'] . '</h3>';
+    echo '<p>' . $academia['endereco'] . '</p>';
+    echo '<p class="texto-suave">' . $academia['cidade'] . '</p>';
+    echo '<span class="selo selo-cinza">'
+        . substr($academia['horarioAbertura'], 0, 5) . ' às ' . substr($academia['horarioFechamento'], 0, 5)
+        . '</span>';
+    echo '<a class="botao" href="checkin.php?academia=' . $academia['id'] . '">Treinar aqui hoje</a>';
+    echo '</div>';
+}
+?>
 </div>
-<div class="conteudo">
-    <h2>Academias disponíveis</h2>
-    <table class="tabela">
-        <tr>
-            <th>Nome</th>
-            <th>Endereço</th>
-            <th>Cidade</th>
-            <th>Horário</th>
-        </tr>
-        <?php
-        while ($academia = mysqli_fetch_array($academias)) {
-            echo "<tr>";
-            echo "<td>" . $academia['nome'] . "</td>";
-            echo "<td>" . $academia['endereco'] . "</td>";
-            echo "<td>" . $academia['cidade'] . "</td>";
-            echo "<td>" . $academia['horarioAbertura'] . " às " . $academia['horarioFechamento'] . "</td>";
-            echo "</tr>";
-        }
-        ?>
-    </table>
-</div>
-</body>
-</html>
+
+<?php require '../includes/rodape.php'; ?>

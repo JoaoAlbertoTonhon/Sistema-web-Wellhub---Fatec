@@ -4,26 +4,49 @@ if (!isset($_SESSION['alunoId'])) {
     header('location:../index.php');
     die();
 }
+require '../includes/funcoesBD.php';
+$assinatura = buscarAssinatura($_SESSION['alunoId']);
+$checkins = buscarCheckinsHoje($_SESSION['alunoId']);
+$titulo = 'Início';
+require '../includes/cabecalho.php';
 ?>
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <link rel="stylesheet" href="../css/style.css">
-    <title>Wellhub - Início</title>
-</head>
-<body>
-<div class="topo">
-    <h1>Wellhub</h1>
-    <nav>
-        <a href="academias.php">Academias</a>
-        <a href="../logica/logout.php">Sair</a>
-    </nav>
+
+<h2 class="titulo-pagina">Olá, <?php echo $_SESSION['alunoNome']; ?>!</h2>
+
+<?php if ($assinatura) { ?>
+    <p class="texto-suave">
+        Seu plano: <strong><?php echo $assinatura['nomePlano']; ?></strong>
+        · válido até <?php echo date('d/m/Y', strtotime($assinatura['dataFim'])); ?>
+    </p>
+<?php } else { ?>
+    <div class="aviso aviso-erro">Você não tem um plano ativo no momento.</div>
+<?php } ?>
+
+<div class="grade">
+    <div class="cartao">
+        <h3>Academias</h3>
+        <p class="texto-suave">Veja as academias liberadas pelo seu plano e escolha onde treinar.</p>
+        <a class="botao" href="academias.php">Ver academias</a>
+    </div>
+
+    <div class="cartao">
+        <h3>Treinos de hoje</h3>
+        <?php
+        if (mysqli_num_rows($checkins) == 0) {
+            echo '<p class="texto-suave">Você ainda não fez check-in hoje.</p>';
+        } else {
+            while ($checkin = mysqli_fetch_array($checkins)) {
+                echo '<p>' . $checkin['nome'] . ' às ' . substr($checkin['hora'], 0, 5) . '</p>';
+            }
+        }
+        ?>
+    </div>
+
+    <div class="cartao">
+        <h3>Minhas aulas</h3>
+        <p class="texto-suave">Veja e cancele suas aulas agendadas.</p>
+        <a class="botao" href="meusAgendamentos.php">Ver aulas</a>
+    </div>
 </div>
-<div class="conteudo">
-    <h2>Olá, <?php echo $_SESSION['alunoNome']; ?>!</h2>
-    <p>Escolha a academia onde você vai treinar hoje.</p>
-    <a href="academias.php" class="botao-link">Ver academias</a>
-</div>
-</body>
-</html>
+
+<?php require '../includes/rodape.php'; ?>
