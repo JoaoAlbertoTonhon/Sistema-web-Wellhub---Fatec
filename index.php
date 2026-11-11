@@ -2,14 +2,19 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/style.css">
     <title>Wellhub - Login</title>
 </head>
 <body class="login">
 <div class="caixa-login">
     <h1>Wellhub</h1>
-    <p>Acesso da recepção</p>
+    <p>Acesso do aluno</p>
+
+    <?php
+    if (isset($_GET['erro'])) {
+        echo '<p class="erro">E-mail ou senha inválidos.</p>';
+    }
+    ?>
 
     <form method="POST" action="logica/processaLogin.php">
         <label for="email">E-mail:</label>
