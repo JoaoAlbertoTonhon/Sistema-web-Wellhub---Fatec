@@ -27,6 +27,9 @@ if (isset($_SESSION['alunoId'])) {
         if (isset($_GET['senha'])) {
             echo '<div class="aviso aviso-sucesso">Senha alterada. Faça seu login.</div>';
         }
+        if (isset($_GET['cadastrado'])) {
+            echo '<div class="aviso aviso-sucesso">Conta criada. Faça seu login.</div>';
+        }
         ?>
 
         <form method="POST" action="logica/processaLogin.php">
@@ -42,6 +45,7 @@ if (isset($_SESSION['alunoId'])) {
         </form>
 
         <p class="links-centro"><a href="recuperarSenha.php">Esqueci minha senha</a></p>
+        <p class="links-centro">Não tem conta? <a href="cadastroAluno.php">Criar conta</a></p>
     </div>
 </div>
 </body>

@@ -174,9 +174,9 @@ function listarAlunos() {
 
 function cadastrarAluno($dados) {
     $conexao = conectar();
-    $consulta = "INSERT INTO aluno (nome, cpf, dataNascimento, telefone, email, senha, objetivo, nivel)
-                 VALUES ('{$dados['nome']}', '{$dados['cpf']}', '{$dados['dataNascimento']}',
-                         '{$dados['telefone']}', '{$dados['email']}', '{$dados['senha']}',
+    $consulta = "INSERT INTO aluno (nome, cpf, dataNascimento, idade, endereco, telefone, email, senha, objetivo, nivel)
+                 VALUES ('{$dados['nome']}', '{$dados['cpf']}', '{$dados['dataNascimento']}', {$dados['idade']},
+                         '{$dados['endereco']}', '{$dados['telefone']}', '{$dados['email']}', '{$dados['senha']}',
                          '{$dados['objetivo']}', '{$dados['nivel']}')";
     mysqli_query($conexao, $consulta);
     return mysqli_insert_id($conexao);
